@@ -1,0 +1,758 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>小程序开发流程</title></head>
+<body><h3>1、注册账号（进入以下页面），下面是已经填写信息完毕的了，如果刚注册的账号，那么需要完善信息之后才可以进行开发小程序</h3>
+<p><img src='C:\Users\吕运学\Desktop\目录/zhuce.png' alt='' referrerPolicy='no-referrer' /></p>
+<h3>2、进行小程序基本的信息配置，比如小程序名称等等</h3>
+<p><img src='C:\Users\吕运学\Desktop\目录/小程序基本配置.png' alt='' referrerPolicy='no-referrer' /></p>
+<h3>3、点击开发获取appid后进行开发小程序</h3>
+<p><img src='C:\Users\吕运学\Desktop\目录\APPID.png' alt='' referrerPolicy='no-referrer' /></p>
+<p>&nbsp;</p>
+<h3>4、appid的使用开发配置</h3>
+<p><img src='C:\Users\吕运学\Desktop\目录\appid使用.png' alt='' referrerPolicy='no-referrer' /></p>
+<h3>5、请求开发配置</h3>
+<p><img src='C:\Users\吕运学\Desktop\目录\服务器请求开发配置.png' alt='' referrerPolicy='no-referrer' /></p>
+<h3>6、开始文件说明</h3>
+<p><img src='C:\Users\吕运学\Desktop\目录\文件说明.png' alt='' referrerPolicy='no-referrer' /></p>
+<p>1、index.js全部是数据</p>
+<p>2、index.wxml就是h5里边的 html文件，显示index.js 里边的数据</p>
+<p>3、</p>
+<h3>7、开发流程及其小程序发布</h3>
+<p><img src='C:\Users\吕运学\Desktop\目录\开发流程，发布.png' alt='' referrerPolicy='no-referrer' /></p>
+<p>&nbsp;</p>
+<p>1、点击前往发布后，发布成功后就可以在小程序搜索栏进行搜索了</p>
+<h3>8、项目上线流程步骤</h3>
+<p><img src='C:\Users\吕运学\Desktop\目录\流程步骤.png' alt='' referrerPolicy='no-referrer' /></p>
+<h3>9、小程序配置团队开发</h3>
+<p><img src='C:\Users\吕运学\Desktop\目录\团队开发.或者体验.png' alt='' referrerPolicy='no-referrer' /></p>
+<p>1、点击成员管理后，在蓝色编辑处进行添加成员，之后就可以进行团队开发了。</p>
+<p>2、此处可以进行相关的权限设置，可以点击查看。</p>
+<h3>10、添加开发人员</h3>
+<p><img src='C:\Users\吕运学\Desktop\目录\添加用户.png' alt='' referrerPolicy='no-referrer' /></p>
+<p>1、点击添加就可以把开发人员或者体验人员给添加进来</p>
+<p>2、一般在公司开发项目会有专门的开发账号</p>
+<h3>11、代码构成</h3>
+<p><img src='C:\Users\吕运学\Desktop\目录\代码构成.png' alt='' referrerPolicy='no-referrer' /></p>
+<p>1、.js逻辑文件，书写功能的文件。</p>
+<p>2、.json配置文件，比如路由等的文件。</p>
+<p>3、.wxml布局文件，相当于h5的html文件。</p>
+<p>4、.wxss样式文件，相当于h5的css文件。</p>
+<p>5、.wxs针对小程序的一套脚本语言，可以直接写在.wxml里边。</p>
+<p>6、<code>app.json</code> 是当前小程序的全局配置，包括了小程序的所有页面路径、界面表现、网络超时时间、底部 tab 等。</p>
+<h3>12、详细梳理目录文件</h3>
+<p>1、utils里边的文件都是全局配置文件，只要在里边进行设置，其他页面都会跟着改变(在没有其他页面进行相应文件配置的时候，比如页面颜色等)</p>
+<p>2、app.json在这个文件里边的“pages”文件里边书写页面，那么书写的页面会自动在文件里边显示出来，比如添加一个&quot; pages/list/list&quot;,那么，list文件会自动配置出来。如图所示。</p>
+<pre><code>{
+  &quot;pages&quot;:[
+    &quot;pages/index/index&quot;,
+    &quot;pages/logs/logs&quot;
+  ],
+  &quot;window&quot;:{
+    &quot;backgroundTextStyle&quot;:&quot;light&quot;,
+    &quot;navigationBarBackgroundColor&quot;: &quot;#fff&quot;,
+    &quot;navigationBarTitleText&quot;: &quot;WeChat&quot;,
+    &quot;navigationBarTextStyle&quot;:&quot;black&quot;
+  }
+}
+
+</code></pre>
+<p><img src='C:\Users\吕运学\Desktop\目录\list文件.png' alt='' referrerPolicy='no-referrer' /></p>
+<p>3、在pages文件里边，配置的第一个文件是入口文件，谁放在第一，谁就会打开页面就会进入。</p>
+<h3>13、配置项的含义</h3>
+<ol start='' >
+<li><code>pages</code>字段 —— 用于描述当前小程序所有页面路径，这是为了让微信客户端知道当前你的小程序页面定义在哪个目录。</li>
+<li><code>window</code>字段 —— 定义小程序所有页面的顶部背景颜色，文字颜色定义，上下拉弹出，以及上下拉的背景色。</li>
+<li>tabBar设置全局导航，可以对导航进行样式，字体图标等的设置。</li>
+<li>networkTimeout设置网络请求，可以设置ajax请求超过某些限度是自动取消等等。</li>
+<li>debug跟console.log()差不多，都是进行信息打印，在控制台方便查看相应的信息。</li>
+
+</ol>
+<h3>14、基本代码的简单说明</h3>
+<pre><code>{
+//配置页面
+  &quot;pages&quot;:[
+    &quot;pages/index/index&quot;,
+    &quot;pages/list/list&quot;,
+    &quot;pages/details/details&quot;,
+    &quot;pages/car/car&quot;
+  ],
+  //配置全局页面属性
+  &quot;window&quot;:{
+    &quot;backgroundTextStyle&quot;: &quot;light&quot;,//下拉刷新的小圆点样式
+    &quot;navigationBarBackgroundColor&quot;: &quot;#58bc58&quot;,//头部样式
+    &quot;navigationBarTitleText&quot;: &quot;WeChat&quot;,//不要在这里设置这个，否则全局页面头部标题都会是WeChat
+    &quot;navigationBarTextStyle&quot;:&quot;white&quot;,//导航栏标题颜色，仅支持 black / white	
+    &quot;backgroundColor&quot;:&quot;#FF0100&quot;,//下拉刷新背面的背景色
+    &quot;enablePullDownRefresh&quot;:true，//开启下拉刷新
+    &quot;onReachBottomDistance&quot;: &quot;50px&quot;//设置上拉刷新，（此处不确定是否正确）
+  },
+  &quot;tabBar&quot;:{
+    &quot;selectedColor&quot;:&quot;#58bc58&quot;,//设置导航选中时的颜色
+    &quot;backgroundColor&quot;:&quot;#F0F0F0&quot;,//tab 的背景色
+    &quot;borderStyle&quot;:&quot;#58BC58&quot;,//tabbar上边框的颜色，
+    &quot;list&quot;:[
+      {
+        &quot;pagePath&quot;: &quot;pages/index/index&quot;,//页面配置路径
+        &quot;text&quot;:&quot;首页&quot;,//导航的名字（标题）
+        &quot;iconPath&quot;: &quot;./img/index.png&quot;，//未选中时的字体图标
+        &quot;selectedIconPath&quot;:&quot;./selectImg/index.png&quot;//选中时的字体图标
+      },
+      {
+        &quot;pagePath&quot;: &quot;pages/list/list&quot;,
+        &quot;text&quot;: &quot;列表&quot;,
+        &quot;iconPath&quot;: &quot;./img/list.png&quot;,
+        &quot;selectedIconPath&quot;: &quot;./selectImg/list.png&quot;
+      },
+      {
+        &quot;pagePath&quot;: &quot;pages/details/details&quot;,
+        &quot;text&quot;: &quot;商品详情&quot;,
+        &quot;iconPath&quot;: &quot;./img/details.png&quot;,
+        &quot;selectedIconPath&quot;: &quot;./selectImg/details.png&quot;
+      },
+      {
+        &quot;pagePath&quot;: &quot;pages/car/car&quot;,
+        &quot;text&quot;: &quot;购物车&quot;,
+        &quot;iconPath&quot;: &quot;./img/car.png&quot;,
+        &quot;selectedIconPath&quot;: &quot;./selectImg/car.png&quot;
+      }
+    ]
+  }
+}
+
+</code></pre>
+<h3>15、小程序的功能基本能操作</h3>
+<h6>1、.wxml文件</h6>
+<pre><code>1、在.wxml文件里边把基本的文件目录写好，
+2、{{username}}数据是写在.js的data里边的，
+&lt;text&gt;数据显示：{{username}}&lt;/text&gt;
+&lt;view&gt;
+&lt;button bindtap=&#39;change&#39;&gt;改变数据&lt;/button&gt;
+&lt;/view&gt;
+</code></pre>
+<h6>2、.js文件</h6>
+<pre><code>Page({
+  data: {
+    username:&quot;商品详情&quot;
+  },
+  //以下是自定义事件
+  change(){
+    this.setData({
+      username:&quot;老谢&quot;
+    })
+  }
+})
+</code></pre>
+<p>3、通过调用调用自定义事件，改变视图层的数据。</p>
+<p>4、应该注意的是<button bindtap='change'>改变数据</button>，点击事件需要bind开头，一看到bind就说明是一个事件。</p>
+<p>5、直接在事件里边引号里边写自定义事件名字就可以使用该事件了</p>
+<p>6、特别注意自定义事件的数据的写法</p>
+<pre><code>change(){
+    this.setData({
+      username:&quot;老谢&quot;
+})
+  }
+</code></pre>
+<h3>16、通过打印相关的数据，结果显示，在onShow这个生命周期里，只要切换页面都会触发，所以可以在此生命周期发起ajax请求；</h3>
+<pre><code>  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    console.log(&quot;onShow&quot;);
+  },
+</code></pre>
+<h3>17、生命周期</h3>
+<p>1、【onLoad】页面加载时触发，一个页面只会调用一次，可以在onLoad的参数中获取，打开当前页面路径中的参数，所以可以在此发起ajax请求。</p>
+<pre><code>  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    console.log(&quot;onLoad&quot;);
+  },
+</code></pre>
+<p>2、【onReady】页面初次渲染完成时触发，一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互。</p>
+<pre><code>  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+    console.log(&quot;onLoad&quot;);
+  },
+
+</code></pre>
+<p>3、【onShow】页面显示，切换页面时触发。</p>
+<pre><code>  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    console.log(&quot;onShow&quot;);
+  },
+
+</code></pre>
+<p>4、【onHide】页面隐藏/切入后台时触发。 如 <code>navigateTo</code> 或底部 <code>tab</code> 切换到其他页面，小程序切入后台等。 </p>
+<pre><code>  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+    console.log(&quot;onHide&quot;);
+  },
+</code></pre>
+<p>5、【onUnload】页面卸载时触发。如<code>redirectTo</code>或<code>navigateBack</code>到其他页面时。 </p>
+<pre><code>  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+    console.log(&quot;onUnload&quot;);
+  },
+</code></pre>
+<h3>18、页面事件处理函数</h3>
+<p>1、【onPullDownRefresh】监听用户下拉刷新事件。</p>
+<ul>
+<li>需要在<code>app.json</code>的<a href='https://developers.weixin.qq.com/miniprogram/dev/framework/config.html#window'><code>window</code></a>选项中或<a href='https://developers.weixin.qq.com/miniprogram/dev/framework/config.html#%E9%A1%B5%E9%9D%A2%E9%85%8D%E7%BD%AE'>页面配置</a>中开启<code>enablePullDownRefresh</code>。</li>
+<li>可以通过<a href='https://developers.weixin.qq.com/miniprogram/dev/api/wx.startPullDownRefresh.html'><code>wx.startPullDownRefresh</code></a>触发下拉刷新，调用后触发下拉刷新动画，效果与用户手动下拉刷新一致。</li>
+<li>当处理完数据刷新后，<a href='https://developers.weixin.qq.com/miniprogram/dev/api/wx.stopPullDownRefresh.html'><code>wx.stopPullDownRefresh</code></a>可以停止当前页面的下拉刷新。</li>
+
+</ul>
+<pre><code>  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+    console.log(&quot;onPullDownRefresh&quot;);
+  },
+</code></pre>
+<p>2、【onReachBottom】监听用户上拉触底事件。</p>
+<ul>
+<li>可以在<code>app.json</code>的<a href='https://developers.weixin.qq.com/miniprogram/dev/framework/config.html#window'><code>window</code></a>选项中或<a href='https://developers.weixin.qq.com/miniprogram/dev/framework/config.html#%E9%A1%B5%E9%9D%A2%E9%85%8D%E7%BD%AE'>页面配置</a>中设置触发距离<code>onReachBottomDistance</code>。</li>
+<li>在触发距离内滑动期间，本事件只会被触发一次。</li>
+
+</ul>
+<pre><code>  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+    console.log(&quot;onReachBottom&quot;);
+  },
+</code></pre>
+<p>3、【onShareAppMessage】监听用户点击页面内转发按钮（<a href='https://developers.weixin.qq.com/miniprogram/dev/component/button.html'>``</a> 组件 <code>open-type=&quot;share&quot;</code>）或右上角菜单“转发”按钮的行为，并自定义转发内容。</p>
+<p><strong>注意：只有定义了此事件处理函数，右上角菜单才会显示“转发”按钮</strong></p>
+<pre><code>  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+    console.log(&quot;onShareAppMessage&quot;);
+  },
+</code></pre>
+<pre><code>Page({
+  onShareAppMessage(res) {
+    if (res.from === &#39;button&#39;) {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: &#39;自定义转发标题&#39;,
+      path: &#39;/page/user?id=123&#39;
+    }
+  }
+})
+</code></pre>
+<p>4、【onPageScroll(Object)】监听用户滑动页面事件。 </p>
+<figure><table>
+<thead>
+<tr><th>scrollTop</th><th>Number</th><th>页面在垂直方向已滚动的距离（单位px）</th></tr></thead>
+<tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody>
+</table></figure>
+<p><strong>注意：请只在需要的时候才在 page 中定义此方法，不要定义空方法。以减少不必要的事件派发对渲染层-逻辑层通信的影响。</strong> <strong>注意：请避免在 onPageScroll 中过于频繁的执行 setData 等引起逻辑层-渲染层通信的操作。尤其是每次传输大量数据，会影响通信耗时。</strong> </p>
+<p>5、【onResize(object)】</p>
+<p>小程序屏幕旋转时触发。</p>
+<p>6、onTabItemTap(Object)</p>
+<p>点击 tab 时触发</p>
+<pre><code>Page({
+  onTabItemTap(item) {
+    console.log(item.index)
+    console.log(item.pagePath)
+    console.log(item.text)
+  }
+})
+</code></pre>
+<p>&nbsp;</p>
+<h3>19、组件【button】的参数使用</h3>
+<p>1、.wxml</p>
+<pre><code>&lt;button
+  type=&quot;default&quot;
+  size=&quot;{{defaultSize}}&quot;
+  loading=&quot;{{loading}}&quot;
+  plain=&quot;{{plain}}&quot;
+  disabled=&quot;{{disabled}}&quot;
+  bindtap=&quot;default&quot;
+  hover-class=&quot;other-button-hover&quot;
+&gt;
+  default
+&lt;/button&gt;
+&lt;button
+  type=&quot;primary&quot;
+  size=&quot;{{primarySize}}&quot;
+  loading=&quot;{{loading}}&quot;
+  plain=&quot;{{plain}}&quot;
+  disabled=&quot;{{disabled}}&quot;
+  bindtap=&quot;primary&quot;
+&gt;
+  primary
+&lt;/button&gt;
+&lt;button
+  type=&quot;warn&quot;
+  size=&quot;{{warnSize}}&quot;
+  loading=&quot;{{loading}}&quot;
+  plain=&quot;{{plain}}&quot;
+  disabled=&quot;{{disabled}}&quot;
+  bindtap=&quot;warn&quot;
+&gt;
+  warn
+&lt;/button&gt;
+&lt;button bindtap=&quot;setDisabled&quot;&gt;点击设置以上按钮disabled属性&lt;/button&gt;
+&lt;button bindtap=&quot;setPlain&quot;&gt;点击设置以上按钮plain属性&lt;/button&gt;
+&lt;button bindtap=&quot;setLoading&quot;&gt;点击设置以上按钮loading属性&lt;/button&gt;
+&lt;button open-type=&quot;contact&quot;&gt;进入客服会话&lt;/button&gt;
+&lt;button open-type=&quot;getUserInfo&quot; lang=&quot;zh_CN&quot; bindgetuserinfo=&quot;onGotUserInfo&quot;&gt;
+  获取用户信息 
+&lt;/button&gt;
+&lt;button open-type=&quot;openSetting&quot;&gt;打开授权设置页&lt;/button&gt;
+</code></pre>
+<p>2、.js逻辑层</p>
+<pre><code>const types = [&#39;default&#39;, &#39;primary&#39;, &#39;warn&#39;]
+const pageObject = {
+  data: {
+    defaultSize: &#39;default&#39;,
+    primarySize: &#39;default&#39;,
+    warnSize: &#39;default&#39;,
+    disabled: false,
+    plain: false,
+    loading: false
+  },
+  //以下是自定义事件
+  setDisabled(e) {
+    this.setData({
+      disabled: !this.data.disabled
+    })
+  },
+  setPlain(e) {
+    this.setData({
+      plain: !this.data.plain
+    })
+  },
+  setLoading(e) {
+    this.setData({
+      loading: !this.data.loading
+    })
+  },
+  onGotUserInfo(e) {
+    console.log(e.detail.errMsg)
+    console.log(e.detail.userInfo)
+    console.log(e.detail.rawData)
+  },
+}
+//这个不清楚【没有深究】
+for (let i = 0; i &lt; types.length; ++i) {
+  (function (type) {
+    pageObject[type] = function (e) {
+      const key = type + &#39;Size&#39;
+      const changedData = {}
+      changedData[key] =
+        this.data[key] === &#39;default&#39; ? &#39;mini&#39; : &#39;default&#39;
+      this.setData(changedData)
+    }
+  }(types[i]))
+}
+
+Page(pageObject)
+</code></pre>
+<h3>20、表单</h3>
+<p><img src='C:\Users\吕运学\Desktop\目录\表单.png' alt='' referrerPolicy='no-referrer' /></p>
+<p>需要记住一些标签，</p>
+<p>1、switch标签</p>
+<p>slide标签</p>
+<p>input标签</p>
+<h3>21、picker重要组件标签，从底部弹起的滚动选择器，现支持五种选择器，通过mode来区分，分别是普通选择器，多列选择器，时间选择器，日期选择器，省市区选择器，默认是普通选择器。</h3>
+<p>1、.wxml</p>
+<p>（1）、value的值表示选择了 range 中的第几个（下标从 0 开始） </p>
+<p>（2）、range   mode为 selector 或 multiSelector 时，range 有效 ，（我的理解是，当底部弹起时，有range的话才会有数据在谈起的框中）</p>
+<p>【以下是没有range的样子】</p>
+<p><img src='C:\Users\吕运学\Desktop\目录\range.png' alt='' referrerPolicy='no-referrer' /></p>
+<pre><code>&lt;view&gt;
+  &lt;picker bindchange=&quot;change&quot; value=&quot;{{index}}&quot; range=&quot;{{array}}&quot;&gt;
+    &lt;view&gt;
+      当前的数据显示是：{{array[index]}}
+    &lt;/view&gt;
+  &lt;/picker&gt;
+&lt;/view&gt;
+
+</code></pre>
+<p>2、.js</p>
+<pre><code>// pages/details/details.js
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    array:[&quot;中国&quot;,&quot;美国&quot;,&quot;日本&quot;,&quot;法国&quot;],
+    shuju:[
+      {
+        idx:0,
+        name:&#39;中国&#39;
+      },
+      {
+        idx: 1,
+        name: &#39;美国&#39;
+      },
+      {
+        idx: 2,
+        name: &#39;日本&#39;
+      },
+      {
+        idx: 3,
+        name: &#39;法国&#39;
+      }
+    ]
+  },
+  index:0,//先设置一个下边作为没有选中时的默认
+  change(e){
+    this.setData({
+      index: e.detail.value//选中时改变数据下标
+    })
+  }
+})
+</code></pre>
+<h3>22、picker-view跟picker不同的就是，不会底部弹出，<img src='C:\Users\吕运学\Desktop\目录\view.png' alt='里边的选项点击自动选中' referrerPolicy='no-referrer' /></h3>
+<h3>23、参数传递</h3>
+<pre><code>&lt;text&gt;数据显示：{{username}}&lt;/text&gt;
+&lt;view&gt;
+&lt;button bindtap=&quot;change&quot; data-username=&quot;{{username}}&quot;&gt;改变数据&lt;/button&gt;
+&lt;/view&gt;
+</code></pre>
+<p>1、此时当点击button时，&quot;username&quot;这个值就会被传递，在另一个文件里边，也就是change(){}这个函数里边就可以获取到参数了，(只要是时间处理函数都会有个e，所以在change(e){}函数里边呢传个e，打印出来你会看到很多东西，代用不同的值就会获取到传递的参数值)</p>
+<p>2、.js页面</p>
+<pre><code>  change(e){
+  console.log(e);//此时就会获取到很多值，
+    this.setData({
+      username:&quot;老谢&quot;
+    })
+  }
+</code></pre>
+<p>&nbsp;</p>
+<h3>24、小程序里边的一些指令</h3>
+<p>1、wx:for</p>
+<pre><code class='language-:' lang=':'>(1).js
+Page({
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    username:&quot;商品详情&quot;,
+    tabs:[&quot;小明&quot;,&quot;小红&quot;,&quot;小华&quot;]
+  },
+  change(){
+    this.setData({
+      username:&quot;老谢&quot;
+    })
+  }
+})
+(2)、.wxml
+&lt;view wx:for=&quot;{{tabs}}&quot;&gt;
+	{{item}}————{{index}}
+&lt;/view&gt;
+此时以上的数组就会遍历到页面当中
+
+(3) 以上的指令也可以进行自定义
+&lt;view wx:for=&quot;{{tabs}}&quot; wx:for-index=&quot;idx&quot; wx:for-item=&quot;itemName&quot;&gt;
+  {{idx}}: {{itemName}}
+&lt;/view&gt;
+
+(4)以上还可以进行参数传递
+&lt;view wx:for=&quot;{{tabs}}&quot; wx:for-index=&quot;idx&quot; wx:for-item=&quot;itemName&quot; id=&quot;{{itemName}}&quot;&gt;
+  {{idx}}: {{itemName}}
+&lt;/view&gt;
+只有一个的话，可以直接使用以上方法进行传递，id=&quot;{{itemName}}&quot;，但是多个的话，建议使用自定义方法
+
+(5)自定义参数传递
+&lt;view wx:for=&quot;{{tabs}}&quot; wx:for-index=&quot;idx&quot; wx:for-item=&quot;itemName&quot; data-username=&quot;{{itemName}}&quot; data-index=&quot;{{idx}}&quot; bindtop=&quot;reverName&quot;&gt;
+  {{idx}}: {{itemName}}
+&lt;/view&gt;
+
+.js:只要是时间都可以传递一个参数e，表示事件
+reverName(e){
+    let username=e.currentTarget.dataset.username;//此时只要执行以上这个方法，就能获取到对应的参数，就可以对参数进行相应的处理；
+    let index=e.currentTarget.dataset.idx;
+    username=username.split(&quot;&quot;).reverse().json(&#39;&#39;);//此时就会名字颠倒，然后在改变以上的数据
+    let arr=[...this.data.tabs];//获取上边数组的数值
+    arr[index]=username;
+    this.setData({
+        tabs:arr
+    })
+}
+
+
+(6)路由（api）wx.navigateBack
+.wxml:
+&lt;button bindtap=&quot;back&quot;&gt;&lt;/button&gt;
+
+.js:
+back(){
+    wx:redirectTo({
+        url:&#39;/pages/index/index?us=123&#39;,
+        success(){//成功的回调
+            console.log(&quot;success&quot;),
+        },
+        fail(){
+            console.log(&quot;fail&quot;);//失败的回调
+        }
+    })
+}
+</code></pre>
+<h3>25、在不同的页面获取到参数</h3>
+<pre><code>const app=getApp();
+不管在哪个页面获取，首先需要加上这一句，表示通过全局函数 getApp() 可以获取全局的应用实例；
+</code></pre>
+<p>1、实例伺候</p>
+<p>(1)、提供数据的页面（这是全局配置的app.js）</p>
+<pre><code>App({
+  globalData: {
+    username:&quot;慧宝宝&quot;；//这就是我设置的参数值
+  }
+})
+</code></pre>
+<p>（2）、获取值得文件</p>
+<pre><code>const app=getApp();
+Page({
+  onLoad: function (options) {
+    console.log(&quot;此处就是拿到的其他页面的值&quot;);
+    console.log(app.globalData.username);
+  },
+})
+注意：（app.globalData.username）globalData是提供数据的方法，username是数据名字
+</code></pre>
+<p>（3）、实例图片</p>
+<p><img src='C:\Users\吕运学\Desktop\目录\传参.png' alt='' referrerPolicy='no-referrer' /></p>
+<h3>26、模块化</h3>
+<p>1、可以将一些公共的代码抽离成为一个单独的 js 文件，作为一个模块。模块只有通过 <code>module.exports</code> 或者 <code>exports</code> 才能对外暴露接口。 </p>
+<p>（1）、暴露公有文件</p>
+<pre><code>// common.js公有文件
+function sayHello(name) {
+  console.log(`Hello ${name} !`)
+}
+function sayGoodbye(name) {
+  console.log(`Goodbye ${name} !`)
+}
+
+module.exports.sayHello = sayHello
+exports.sayGoodbye = sayGoodbye
+
+module.exports和exports都可以暴露接口
+</code></pre>
+<p>（2）、应用公有文件</p>
+<pre><code>const common = require(&#39;common.js&#39;)
+Page({
+  helloMINA() {
+    common.sayHello(&#39;MINA&#39;)
+  },
+  goodbyeMINA() {
+    common.sayGoodbye(&#39;MINA&#39;)
+  }
+})
+</code></pre>
+<p>（3）、公有文件通常在util.js工具里边暴露接口</p>
+<pre><code>实例：
+module.exports = {
+  formatTime: formatTime;//处理时间格式的接口
+}
+</code></pre>
+<p>&nbsp;</p>
+<h3>27、对象</h3>
+<p>（1）、也可以用扩展运算符 <code>...</code> 来将一个对象展开 </p>
+<pre><code>&lt;template is=&quot;objectCombine&quot; data=&quot;{{...obj1, ...obj2, e: 5}}&quot;&gt;&lt;/template&gt;
+</code></pre>
+<p>（2）、<strong>注意：</strong> 花括号和引号之间如果有空格，将最终被解析成为字符串</p>
+<pre><code>&lt;view wx:for=&quot;{{[1,2,3]}} &quot;&gt;{{item}}&lt;/view&gt;
+</code></pre>
+<h3>28、列表渲染</h3>
+<p>一、</p>
+<p>（1）、wx:for默认数组的当前项的下标变量名默认为 <code>index</code>，数组当前项的变量名默认为 <code>item</code> </p>
+<p>使用wx:for的时候，记得加上wx:key，wx:key表示唯一的标识符，wx:key的变量可以直接使用变量，就可以不需要使用item.index等，直接可以使用index</p>
+<pre><code>.wxml
+&lt;view wx:for=&quot;{{array}}&quot;&gt;{{index}}: {{item.message}}&lt;/view&gt;
+
+.js
+Page({
+  data: {
+    array: [{ message: &#39;foo&#39;,}, {message: &#39;bar&#39;}]
+  }
+})
+</code></pre>
+<p>(2)、使用 <code>wx:for-item</code> 可以指定数组当前元素的变量名，</p>
+<p>​	使用 <code>wx:for-index</code> 可以指定数组当前下标的变量名：</p>
+<p>应用场景：循环嵌套，此时就会分不清item是哪里提供的，所以，此时就应该更改指令代码</p>
+<pre><code>&lt;view wx:for=&quot;{{array}}&quot;&gt;{{item}}
+    &lt;view wx:for=&quot;{{array}}&quot;&gt;
+		{{item}}
+    &lt;/view&gt;
+&lt;/view&gt;
+</code></pre>
+<p>更改够</p>
+<pre><code>&lt;view wx:for=&quot;{{array}}&quot; wx:for-index=&quot;idx&quot; wx:for-item=&quot;itemName&quot;&gt;
+  {{idx}}: {{itemName.message}}
+&lt;/view&gt;
+</code></pre>
+<p>二、</p>
+<p>（1）、block wx:for</p>
+<p>此种用法可以把block当做一个标签来使用，</p>
+<pre><code>&lt;block wx:for=&quot;{{array}}&quot;&gt;
+    &lt;view&gt;{{item}}&lt;/view&gt;
+    &lt;view&gt;{{item}}&lt;/view&gt;
+&lt;/block&gt;
+</code></pre>
+<p>三、</p>
+<p>（1）、wx:if表示直接去掉某个节点，</p>
+<p>在框架中，使用 <code>wx:if=&quot;{{condition}}&quot;</code> 来判断是否需要渲染该代码块：</p>
+<pre><code>&lt;view wx:if=&quot;{{condition}}&quot;&gt;True&lt;/view&gt;
+</code></pre>
+<p>也可以用 <code>wx:elif</code> 和 <code>wx:else</code> 来添加一个 else 块：</p>
+<pre><code>&lt;view wx:if=&quot;{{length &gt; 5}}&quot;&gt;1&lt;/view&gt;
+&lt;view wx:elif=&quot;{{length &gt; 2}}&quot;&gt;2&lt;/view&gt;
+&lt;view wx:else&gt;3&lt;/view&gt;
+</code></pre>
+<p>（2）、block wx:if</p>
+<p>因为 <code>wx:if</code> 是一个控制属性，需要将它添加到一个标签上。如果要一次性判断多个组件标签，可以使用一个 <code>&lt;block/&gt;</code> 标签将多个组件包装起来，并在上边使用 <code>wx:if</code> 控制属性。</p>
+<pre><code>&lt;block wx:if=&quot;{{true}}&quot;&gt;
+  &lt;view&gt;view1&lt;/view&gt;
+  &lt;view&gt;view2&lt;/view&gt;
+&lt;/block&gt;
+</code></pre>
+<p><strong>注意：</strong> <code>&lt;block/&gt;</code> 并不是一个组件，它仅仅是一个包装元素，不会在页面中做任何渲染，只接受控制属性。</p>
+<p>（3）、<code>wx:if</code> vs <code>hidden</code></p>
+<p>同时 <code>wx:if</code> 也是<strong>惰性的</strong>，如果在初始渲染条件为 <code>false</code>，框架什么也不做，在条件第一次变成真的时候才开始局部渲染。</p>
+<p>相比之下，<code>hidden</code> 就简单的多，组件始终会被渲染，只是简单的控制显示与隐藏。</p>
+<p>一般来说，<code>wx:if</code> 有更高的切换消耗而 <code>hidden</code> 有更高的初始渲染消耗。因此，如果需要频繁切换的情景下，用 <code>hidden</code> 更好，如果在运行时条件不大可能改变则 <code>wx:if</code> 较好。</p>
+<h4>实例：</h4>
+<pre><code>&lt;view wx:if=&quot;{{show}}&quot; bindtap=&#39;show&#39;&gt;
+  慧宝宝
+&lt;/view&gt;
+&lt;view wx:else bindtap=&#39;show&#39;&gt;
+  憨宝宝, 憨宝宝, 憨宝宝
+&lt;/view&gt;
+
+&lt;view hidden=&quot;show&quot;&gt;
+  憨宝宝, 憨宝宝, 憨宝宝
+&lt;/view&gt;
+
+逻辑代码：
+const app=getApp();
+Page({
+  data: {
+    show:true
+  },
+  show(){
+    this.setData({
+      show:false
+    })
+  }
+})
+
+
+
+</code></pre>
+<p>四、使用模板</p>
+<p><img src='C:\Users\吕运学\Desktop\目录\模板.png' alt='' referrerPolicy='no-referrer' /></p>
+<p>1、模板使用很简洁，先设置好模板，然后在需要使用模板的地方通过&lt;template  is=&quot;模板name的名字 &quot; wx：for=&quot;{{数组名字}} data=&quot;{{传递给模板使用的参数，通常是item}}&quot;/&gt;</p>
+<pre><code>.wxml:
+&lt;!-- 使用模板的时候，直接通过is调用模板名字就可以使用了 --&gt;
+&lt;template is=&quot;list&quot; wx:for=&quot;{{tabs}}&quot; data=&quot;{{item}}&quot; wx:key=&quot;{{index}}&quot;/&gt;
+
+&lt;template name=&quot;list&quot;&gt;
+  &lt;view&gt;姓名：{{item.username}}&lt;/view&gt;
+  &lt;view&gt;年龄：{{item.age}}&lt;/view&gt;
+  &lt;view&gt;性别：{{item.gender}}&lt;/view&gt;
+&lt;/template &gt;
+
+.js:
+data: {
+ tabs:[
+      {
+        username:&quot;老谢&quot;,
+        age:26,
+        gender:&quot;男&quot;
+      },
+      {
+        username: &quot;老谢&quot;,
+        age: 26,
+        gender: &quot;男&quot;
+      },
+      {
+        username: &quot;老谢&quot;,
+        age: 26,
+        gender: &quot;男&quot;
+      },
+      {
+        username: &quot;老谢&quot;,
+        age: 26,
+        gender: &quot;男&quot;
+      }
+    ]
+  }
+</code></pre>
+<p>2、通过单独设定共有的文件夹，然后通过<import src="/commonts/moban.wxml" /> 引入后使用</p>
+<pre><code>（1）、供有模板
+&lt;template name=&quot;list&quot;&gt;
+  &lt;view&gt;姓名：{{item.username}}&lt;/view&gt;
+  &lt;view&gt;年龄：{{item.age}}&lt;/view&gt;
+  &lt;view&gt;性别：{{item.gender}}&lt;/view&gt;
+&lt;/template &gt;
+
+（2）、引入并使用代码
+通过绝对路劲映入
+&lt;import src=&quot;/commonts/moban.wxml&quot; /&gt;
+&lt;!-- 使用引入的模板 --&gt;
+&lt;template is=&quot;list&quot; wx:for=&quot;{{tabs}}&quot; data=&quot;{{item}}&quot; wx:key=&quot;{{index}}&quot;/&gt;
+</code></pre>
+<p>3、include，它是直接使用了模板里边的内容，通过<include src="/commonts/moban.wxml" /> 这样一个闭合的标签</p>
+<pre><code>模板代码：
+&lt;view&gt;
+  这是include
+&lt;/view&gt;
+
+引用代码：
+&lt;include src=&quot;/commonts/moban.wxml&quot; /&gt;
+</code></pre>
+<h3>29、</h3>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>
