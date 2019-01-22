@@ -1,2 +1,7 @@
 老姚：https://github.com/Wscats/Good-Text-Share/issues/58
 王国键：https://github.com/wgjh5/Backstage-Management-System.git
+开发小程序准备流程：https://www.jianshu.com/p/0ff8c3b2f59f
+开发小程序发布流程：
+https://www.jianshu.com/p/a77b73f329e4
+密钥：1a5c81fe4a1044d193b55be13cf23665
+3719567a830ee6cf13f58ca244417528
