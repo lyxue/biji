@@ -561,55 +561,503 @@ created(){
 props:['list'],
 ```
 
+### 十三、路由
 
+（一）、在安装脚手架的时候顺带下载
 
+1、可以在安装脚手架的时候顺带安装，在 选择是否安装路由那点选择“Y”，即可顺带下载
 
+（二）、在没有安装脚手架下顺带下载
 
+1、下载安装
 
+```
+npm install vue-router --save
+```
 
+2、在src文件下新建router文件夹，在新建index.js文件【可以直接复制这段代码】
 
+```
+import Vue from 'vue'
+//引入vue
+import Router from 'vue-router'
+//引入路由
+Vue.use(Router)
+export default new Router({
+  routes: [
+    {path: '',name: '',component: }
+  ]
+})
 
+```
 
+3、在main.js里边引入路由【进行路由全局配置】【有备注的地方就是需要添加的路由配置 】
 
+```
+import Vue from 'vue'
+import App from './App'
+import router from './router'//引入路由
+Vue.config.productionTip = false
+new Vue({
+  el: '#app',
+  router,  //目的是为了能够在实例的子类中可以使用this.$router能够获取到路由的实例
+  components: { App },
+  template: '<App/>'
+})
 
+```
 
+4、在根组件下使用 <router-view/>，  相当于开辟一片空间 ， 当页面监听到hash 变化 匹配路由配置里的组件信息进行加载
 
+```
+<template>
+  <div id="app">
+    <router-view/>//此处是路由需要添加的内容
+  </div>
+</template>
 
+```
 
+5、使用
 
+```
+看实例：
+import Vue from 'vue'
+//引入vue
+import Router from 'vue-router'
+//引入路由
+import Home from '../components/pages/Home/Home.vue'
+import Activity from '../components/pages/Activity/Activity.vue'
+import My from '../components/pages/My/My.vue'
+//引入home组件
+Vue.use(Router)
+export default new Router({
+  routes: [
+    {path: '/',name: 'Home',component: Home},
+    {path: '/activity',name: 'Activity',component: Activity},
+    {path: '/my',name: 'My',component: My}
+  ]
+})
 
+```
 
+6、一个完整的路由已经搭建完毕
 
+（三）、页面件组件的切换方式
 
+1、<router-link to="变化的hash" tag  active-class>
+   （1）、 to: 路由的变化
+   （2）、tag  将该标签解析为其他元素 默认是a
+   （3）、active-class  页面激活是的使用类名
+   （4）、 没有点击事件
 
+```
+实例：
+<template>
+	<div id="home">
+		<ul class="nav">
+			<RouterLink v-for="(item,index) in navlist" 
+			  :key="index"
+			  @click="goPage(item.path)"
+			  tag='li'
+			  :to='item.path'
+			  active-class='red' 
+			  >
+			  {{item.name}}
+			</RouterLink>
+		</ul>
+	</div>
+</template>
+```
 
+2、编程式导航
 
+```
+html部分：
+<template>
+	<div id="activity">
+		<ul class="nav">
+			<li @click="goBack">
+				<i class="fa fa-chevron-left" aria-hidden="true"></i>
+			</li>
+		</ul>
+	</div>
+</template>
+js部分：
+methods:{
+    goBack(){
+    	this.$router.push({path:"/"})//点击后会寻找"/"所在的hash值，然后进行页面之间的切换
+    }
+}
+```
 
+### 十四、自定义事件【不能在<RouterLink > </RouterLink>里边使用】
 
+1、一个组件
 
+```
+<template>
+	<div id="home">
+		<div @slideHide="hide"></div>
+	</div>
+</template>
+js部分:
+<script>
+export default {
+	name:"My",
+	components:{
+		Header,Footer
+	},
+	data(){
+		return {
+			test:"",
+			show:flase
+		}
+	},
+	methods:{
+    hide(){
+    	this.show=!show
+    }
+}
+}
+</script>
+```
 
+2、另一个页面【可以理解为在另一个页面触发另一个页面事件，达到改变某些值的作用】
 
+```
+<script>
+export default {
+	name:"My",
+	components:{
+		Header,Footer
+	},
+	data(){
+		return {
+			test:"",
+			show:flase
+		}
+	},
+	methods:{
+    hide(){
+    	this.$emit("slideHide")
+    }
+}
+}
+</script>
+```
 
+### 十五、简单的tab选项卡
 
+```
+<template>
+	<div id="my">
+		<div>
+			<ul>
+				<li 
+                    class="li1" 
+                    v-for="(item,index) in nav" 
+                    :key="index" 
+                    @click="chang(index)">{{item}}
+				</li>
+			</ul>
+		</div>
+		<div>
+			<ul>											
+				<li 
+                    v-for="(item,index) in commonts" 
+                    :key="index" 
+                    v-show="index == num">{{item}}
+				</li>
+			</ul>
+		</div>
+	</div>
+</template>
 
+<script>
+export default {
+	name:"My",
+	components:{
+		
+	},
+	data(){
+		return {
+			nav:["标题一","标题二","标题三"],
+			commonts:["标题一的内容","标题二的内容","标题三的内容"],
+			num:0
+		}
+	},
+	 methods: {
+        chang(index) {
+          this.num = index;
+        }
+      }
+}
+</script>
 
+<style type="text/css" lang="less" scoped>
+#my{
+	.li1{
+		display: inline-block;
+		justify-content: space-between;
+		border: 1px solid red;
+		width: 123px;
+		height: 60px;
+		background: green;
+		line-height: 60px;
+		text-align: center;
+	}
+}
+</style>
+```
 
+### 十六、懒加载（使用的是mint-ui）
 
+1、下载
 
+```
+npm install mint-ui --save
+```
 
+2、引入【看情况，如果使用的地方很多，那么建议采用全局引入】
 
+```
+//全局引入mint-ui
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
 
+Vue.config.productionTip = false
 
+new Vue({
+  el: '#app',
+  router,
+  components: { App },
+  template: '<App/>'
+})
 
+```
 
+3、使用
 
+```
+以全局引入为例：
+<template>
+	<div id="activity">
+		<div class="jiazai"></div>
+	</div>
+</template>
+<script>
+import { Toast } from 'mint-ui';  //用哪个就先引入哪个，这里要使用Toast，所以先引入
+export default {
+	name:"Activity",
+	components:{
+		
+	},
+	data(){
+		return {
+			name:"活动"
+		}
+	},
+	created(){  //一进入页面就会加载数据，以下就是懒加载的内容
+		Toast({
+		  message: '数据正在加载',
+		  iconClass: 'fa fa-spinner fa-spin',  //字体图标的类名
+		  position:'middle',   //加载图标的位置【居中】
+		  duration: 500   //持续时间
+		});
+	},
+	methods:{
 
+	}
+	
+}
+</script>
 
+<style type="text/css" lang="less" scoped>
+.jiazai{
+	width: 100%;
+	height: 8rem;
+	background: yellow;
+}
+</style>
+```
 
+4、执行效果
 
+![](C:\Users\吕运学\Desktop\git笔记\vue脚手架\图片目录\懒加载.png)
 
+5、字体图标来源
 
+```
+Toast({
+    message: '数据正在加载',
+    iconClass: 'fa fa-spinner fa-spin',  //字体图标的类名
+    position:'middle',   //加载图标的位置【居中】
+    duration: 500   //持续时间
+});
+```
 
+（1）、百度搜索http://www.fontawesome.com.cn/faicons/，直接【ctrl+f】查询spin
+
+![](C:\Users\吕运学\Desktop\git笔记\vue脚手架\图片目录\字体图标.png)
+
+（2）、随便选择喜欢的，点击进去后复制字体图标的类名，粘贴到iconClass: "  "引号里边即可，让图标动起来还需要添加 fa-spin类名。
+
+### 十七、关于一个文本框的值得处理连接，【用户登录】
+
+1、https://www.jb51.net/article/146656.htm
+
+### 十八、图片上传【实例】
+
+1、图片上传（先在本地预览，点击提交按钮时再上传到服务器）
+
+```
+<template>
+  <div>
+    <div id="ddd">
+      <div class="add-pic" @click="addPic()">
+        <img src="../../image/u286_r2_c2.jpg" class="add-img"><!-- 一开始显示的图片，点击选择照片后隐藏 -->
+        <input name="files" id="uploaderInput" type="file" accept="image/*" multiple />
+      </div>
+      <div id="img-group">
+        <div class="img-item">
+          <img :src="img" alt="">
+          </div>
+        </div>
+      </div>
+      <span>{{span}}</span>
+      <br>
+      <span @click="tijiao">提交</span>
+    </div>
+</template>
+<script>
+  import { Toast } from 'mint-ui';
+export default {
+  data() {
+    return {
+      img:'',
+      picFlag: true,
+      span:'文字',
+      file:{}
+    }
+  },
+  created: function() {
+
+  },
+  methods: {
+     addPic(){
+        var vm = this;
+        var input = document.getElementById('uploaderInput');
+        input.addEventListener('change', function(e){
+          var addImg = document.getElementsByClassName('add-img')[0];
+          addImg.style.display='none';//隐藏
+            var files = input.files;
+            vm.file=files[0];//将file保存，用于上传服务器
+            var reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+            reader.onload = function () {
+              vm.img=this.result;
+            };
+        });
+    },
+    tijiao(){
+      let params = new FormData();
+      params.append('file',this.file);
+      params.append('street',this.span);
+      this.$axios.post(this.API().addDistributionApplyUser,params,{headers: {'Content-Type': 'multipart/form-data'}})
+      //提交给后端的接口this.API().addDistributionApplyUser
+          .then((res) => {
+            console.log(res.data);
+            if (res.data.code == 0) {
+              Toast({
+                message: '已提交申请',
+                iconClass: "fa fa-check-circle",
+                position: 'center',
+                duration: 1000
+              });
+              this.$router.push('/homecen/home');
+            }else{
+              Toast({
+                message: res.data.message,
+                iconClass: "fa fa-times-circle",
+                position: 'center',
+                duration: 1000
+              });
+            }
+          })
+          .catch((res) => {
+            console.log(res.data.message)
+          })
+    }
+  },
+
+}
+
+</script>
+<style lang="less" scoped type="text/css">
+@import url('../../styls/main.less');
+/* less预处理语言 
+.w(@px){
+    width: unit(@px/37.5,rem);
+}
+*/
+.hide {
+  display: none;
+}
+
+#ddd {
+  position: relative;
+  .w(375);
+  .h(165);
+  display: flex;
+  justify-content: center;
+
+  .img-item {
+    z-index: 100;
+    .w(285);
+    .h(165);
+    .border-radius(10, 10, 10, 10);
+  }
+
+  .img-item img {
+    width: 100%;
+    height: 100%;
+    .border-radius(10, 10, 10, 10);
+  }
+
+  .add-pic {
+    .w(285);
+    .h(165);
+    .border-radius(10, 10, 10, 10);
+    position: absolute;
+    .top(0);
+    .left(45);
+    .lh(165);
+    text-align: center;
+
+    img {
+      .w(285);
+      .h(165);
+    }
+
+    .you {
+      display: none;
+    }
+  }
+
+  .add-pic input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+}
+
+</style>
+
+```
 
 
 
