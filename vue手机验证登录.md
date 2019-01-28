@@ -109,7 +109,6 @@
       //   验证
          getAuthCode:function () {
            const verification =this.ReginForm.tel;
-           
              const url = " "
              console.log("url",url);
                this.$http.get(url).then(function (response) {

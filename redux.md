@@ -24,7 +24,6 @@ let initData = {
 // 根据不同的action操作旧的state，并返回新的state
 let reducer = (state=initData,action)=>{
 	//根据action来修改state，并返回新的state
-	
 	//判断类型，如果类型符合，就会执行相应的代码，返回新的数值，后渲染页面数据；
 	switch(action.type){
 		case 'UPDATE_AGE':  
