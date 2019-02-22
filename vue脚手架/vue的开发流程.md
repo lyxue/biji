@@ -96,8 +96,8 @@ npm run dev
     //以下也有补充（initial-scale=1.0）
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>yunnanunicom</title>
-		<link rel="stylesheet" type="text/css" href="static/css/font-awesome.css"/>
-		<script>
+	<link rel="stylesheet" type="text/css" href="static/css/font-awesome.css"/>
+	<script>
 	//设置适配不同的机型
     //根元素字体大小=不同适配机屏幕宽度/10在加上单位（这样就能适配所有的机型）
    document.documentElement.style.fontSize=document.documentElement.clientWidth/10+"px"
@@ -285,7 +285,7 @@ export default {
 
 ### 五、经典轮播图使用（layui）
 
-1、直接进入官网下载，加压将layui这个文件夹复制到静态资源（static）目录下
+1、直接进入官网下载，解压将layui这个文件夹复制到静态资源（static）目录下
 
 2、在入口文件index.html下引入css文件跟js文件
 
@@ -310,9 +310,9 @@ mounted(){
 		  var carousel = layui.carousel;
 		  //建造实例
 		  carousel.render({
-			elem: '#test1'
-			,width: '100%' //设置容器宽度
-			,arrow: 'always' ,//始终显示箭头
+			elem: '#test1',
+			width: '100%', //设置容器宽度
+			arrow: 'always',//始终显示箭头
 			height:"170px",
 			//,anim: 'updown' //切换动画方式
 		  });
@@ -432,7 +432,7 @@ vue实例.filter("过滤器的名字",function(要过滤的数据){
 
 （二）、基本使用【在全局里边引用】
 
-1、将一个时间戳变成一个事件日期格式
+1、将一个时间戳变成一个时间日期格式
 
 ```
 vue.filter('getDate',function(value){
@@ -513,7 +513,7 @@ import Vue from "vue"
 import Axios from "axios"
 ```
 
-2、vue实例之前如果没有，那么久需要引入，如果需要引入【import Vue from "vue"】
+2、vue实例之前如果没有，那么就需要引入，如果需要引入【import Vue from "vue"】
 
 3、挂载在原型链上【组件是vue实例的一个子类，所以vue原型链原型链上的属性，子类也会继承】
 
@@ -524,7 +524,7 @@ Vue.prototype.$axios=Axios
 
 （三）、接下来的组件ajax请求就会这样写
 
-1、ajax请求模板
+1、ajax请求模板【get】
 
 ```
 created(){
@@ -538,13 +538,29 @@ created(){
 }
 ```
 
+2、
+
+```
+var params = new URLSearchParams();
+params.append('us',this.val);
+params.append('ps',this.pas);
+this.$axios.post("my/Users/reg",params)
+.then((res)=>{
+	console.log(res);
+})
+```
+
 
 
 ### 十一、vue的相关连接http://www.cnblogs.com/amunamuna/p/8709491.html
 
 ### 十二、组件之间参数的传递
 
-1、父子组件之间参数的传递
+##### 一、利用props传递参数
+
+###### （一）：实例1
+
+1、父子组件
 
 ```
 父组件：
@@ -555,10 +571,145 @@ created(){
 </div>
 ```
 
-2、接收父组件的参数
+2、子组件
 
 ```
 props:['list'],
+```
+
+###### （二）：实例2
+
+1、父子组件
+
+```
+<template>
+  <div>
+    <input v-model="message">
+    <!--将childmessage与message通过v-bind指令绑定!-->
+    <child :childmessage="message"></child>
+  </div>
+</template>
+<script>
+  import child from "./components/child.vue"
+  export default{
+    //构建child组件
+    components:{
+      child
+    },
+    data(){
+      return {
+        //初始化message
+        message:''
+      }
+    }
+  }
+</script>
+```
+
+2、子组件
+
+```
+<template>
+  <div>
+    <p>childmessage is:{{childmessage}}</p>
+  </div>
+</template>
+<script>
+  export default{
+    //将childmessage传递给child
+    props:['childmessage']
+  }
+</script>
+```
+
+##### 注意：
+
+【prop是单向绑定的，不应该在子组件内部改变prop。不过这里的props传过来的值会随之父组件的值的改变而改变，是动态改变的。】
+
+##### 二、路由传参
+
+###### （一）、在路由的path路径下传参
+
+1、路由配置
+
+```
+   {
+     path: '/describe/:id',
+     name: 'describe',
+     component: Describe
+   }
+```
+
+2、使用方式
+
+```
+//直接调用$router.push 实现携带参数的跳转
+ this.$router.push({
+    path: /describe/${id}`,//这个id是一个变量,随便是什么值都可以
+ })
+
+补充： 
+goDetails(id,imgUrl,price,salesCount,title){
+     this.$router.push({name:'detailCont',params:{
+         img:`${imgUrl}`,
+         title:`${title}`,
+         id:`${id}`,
+         price:`${price}`,
+         renshu:`${salesCount}`,
+         title:`${title}`,
+     }})
+}
+```
+
+3、参数获取
+
+```
+this.$route.params.id
+```
+
+###### （二）、通过路由属性中的name来确定匹配的路由，通过params来传递参数。
+
+1、路由配置
+
+```
+{path: '/describe',name: 'describe',component: Describe}
+```
+
+2、使用方式
+
+```
+this.$router.push({name: 'describe',params: {id: id}})
+```
+
+3、参数获取
+
+```
+this.$route.params.id
+```
+
+###### （三）、把params换成了query
+
+1、路由配置
+
+```
+{path: '/describe',name: 'describe',component: Describe}
+```
+
+2、使用方法
+
+```
+this.$router.push({
+    path: '/describe',
+    query: {
+         id: id
+    }
+})
+```
+
+3、获取参数
+
+```
+this.$route.query.id
 ```
 
 ### 十三、路由
@@ -711,12 +862,12 @@ export default {
 	data(){
 		return {
 			test:"",
-			show:flase
+			show:false
 		}
 	},
 	methods:{
     hide(){
-    	this.show=!show
+    	this.show=!this.show
     }
 }
 }
@@ -735,7 +886,7 @@ export default {
 	data(){
 		return {
 			test:"",
-			show:flase
+			show:false
 		}
 	},
 	methods:{
@@ -903,9 +1054,16 @@ Toast({
 
 （2）、随便选择喜欢的，点击进去后复制字体图标的类名，粘贴到iconClass: "  "引号里边即可，让图标动起来还需要添加 fa-spin类名。
 
-### 十七、关于一个文本框的值得处理连接，【用户登录】
+### 十七、关于一个文本框的值的处理连接，【用户登录】
 
 1、https://www.jb51.net/article/146656.htm
+
+2、关于app点击输入框时，输入框视野拉近【输入框放大】的问题
+
+```
+直接在头文件下把原来的文件替换了：
+ <meta content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=2.0, user-scalable=no, width=device-width" name="viewport">
+```
 
 ### 十八、图片上传【实例】
 
@@ -1059,17 +1217,268 @@ export default {
 
 ```
 
+### 十九、项目打包
+
+（一）、打包
+
+1、通过npm run build 打包生成dist文件夹，里面包含css、js；其中在css、js文件夹的map文件在部署时都要将其删除。
+
+（二）、关于打包问题
+
+1、页面出不来
+
+（1）、找到项目的config文件夹里面的index.js，将
+
+```
+代码assetsPublicPath: '/',
+改为assetsPublicPath: './',
+```
+
+2、背景图片出不来
+
+（1）、找到build文件夹下面的utils.js
+
+```
+if (options.extract) {
+      return ExtractTextPlugin.extract({
+        use: loaders,
+        fallback: 'vue-style-loader'
+      })
+    } else {
+      return ['vue-style-loader'].concat(loaders)
+}
+改为：=======》 
+if (options.extract) {
+      return ExtractTextPlugin.extract({
+        use: loaders,
+        fallback: 'vue-style-loader',
+        publicPath:"../../"     //增加的代码
+      })
+    } else {
+      return ['vue-style-loader'].concat(loaders)
+}
+```
+
+3、打包上线后部分css不出来
+
+（1）、首先注释掉webpack.prod.conf.js中下面的代码
+
+```
+new OptimizeCSSPlugin({
+  cssProcessorOptions: config.build.productionSourceMap
+    ? { safe: true, map: { inline: false } }
+    : { safe: true }
+}),
+
+```
+
+（2）、然后在utils.js中添加， minimize:true 
+
+```
+const cssLoader = {
+   loader: 'css-loader',
+   options: {
+     sourceMap: options.sourceMap,
+     minimize:true
+   }
+ }
+
+```
+
+（3）、然后重新打包传到线上  
+
+###### （三）、打包  （开发、生产环境） api统一管理
+
+1、在src文件夹里新建api文件夹 里面新建api.js；将以下代码倒进去
+
+```
+let baseURL = "/api";//直接npm run dev 运行项目用这个
+//let baseURL = "http://192.168.0.43:8080";//打包时用这个	http://192.168.0.43:8080为开启后端服务我网址
+
+export default function DISTRIBUTE(){
+    return{
+        "login":`${baseURL}/sys/auth/login`,  //登录
+        "register":`${baseURL}/sys/auth/register` //注册
+    }
+}
 
 
+//后端接口为http://192.168.0.43:8080/sys/auth/register
+//这样写的好处   当IP发生变化时，只需改变一个  后端接口改变时，不要翻看代码
+```
 
+2、使用======》main.js引入
 
+```
+import API from './api/api.js'
+Vue.prototype.API=API
+```
 
+3、要与后端交互发起请求
 
+```
+var params = new URLSearchParams();
+params.append('us',this.val);
+params.append('ps',this.pas);
+this.$axios.post(this.API().login,params)
+.then((res)=>{
+	console.log(res);
+})
+//this.API().login相当于http://192.168.0.43:8080/sys/auth/login
+```
 
+### 二十、最后node.js短信验证相关参考连接
 
+1、https://www.jb51.net/article/116579.htm
 
+### 二十一、微信各种分享
 
+1、https://blog.csdn.net/qq_29755359/article/details/79667577
 
+### 二十二、微信分享
+
+1、	https://blog.csdn.net/qq_22753743/article/details/78850815
+
+​	https://blog.csdn.net/shooke/article/details/79069614
+
+```
+<template>
+  <div class="details">
+    <player :videoUrl="details.videoUrl" :coverUrl="details.coverUrl" :videoId="details.videoId"/>
+    <div class="description">
+      <span class="label" :style="{backgroundColor: details.videoLabelColor}">{{details.videoLabel}}</span>
+      <p class="title">{{details.videoTitle}}</p>
+      <p class="info">
+        <span>{{details.mtime}}</span>
+        <i class="iconfont icon--"></i>
+        {{details.videoPlayTimes}}
+      </p>
+      <p class="summary">简介</p>
+      <p class="article ql-editor" v-html="details.videoDescription"></p>
+    </div>
+  </div>
+</template>
+<script>
+import player from '@/components/player'
+import { videoDtails, getApp } from '@/config/api'
+ 
+/* eslint-disable no-undef */
+export default {
+  components: {
+    player
+  },
+  data () {
+    return {
+      details: {},
+      appId: '',
+      signature: '',
+      timestamp: '',
+      nonceStr: ''
+    }
+  },
+  beforeDestroy () {
+    document.querySelector('.htmlTitle').text = 'title'
+  },
+  mounted () {
+    // 获取详情数据let url = window.location.href.split("#")[0]
+    this.$http.get(this, videoDtails, {videoId: this.$route.query.id}, res => {
+      this.details = res
+      document.querySelector('.htmlTitle').text = this.details.videoTitle
+      this.$http.get(this, getApp, {url: url, refresh: true}, res => {
+        this.appId = res.appId
+        this.signature = res.signature
+        this.timestamp = res.timestamp
+        this.nonceStr = res.nonceStr
+        this.shard(url)
+      })
+    })
+  },
+  methods: {
+    shard (url) {
+      wx.config({
+        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: this.appId, // 必填，公众号的唯一标识
+        timestamp: this.timestamp, // 必填，生成签名的时间戳
+        nonceStr: this.nonceStr, // 必填，生成签名的随机串
+        signature: this.signature, // 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+      })
+      wx.onMenuShareTimeline({
+        title: this.details.videoTitle, // 分享标题
+        link: url+'#/...', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        imgUrl: this.details.coverUrl, // 分享图标
+        success () {
+          alert('分享朋友圈成功')
+          // 用户确认分享后执行的回调函数
+        },
+        cancel () {
+          // 用户取消分享后执行的回调函数
+        }
+      })
+ 
+      wx.onMenuShareAppMessage({
+        title: this.details.videoTitle, // 分享标题
+        desc: this.details.videoTitle, // 分享描述
+        link: url+'#/...', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        imgUrl: this.details.coverUrl, // 分享图标
+        type: 'video', // 分享类型,music、video或link，不填默认为link
+        dataUrl: this.details.videoUrl, // 如果type是music或video，则要提供数据链接，默认为空
+        success: function () {
+          alert('分享给朋友成功')
+          // 用户确认分享后执行的回调函数
+        },
+        cancel: function () {
+          // 用户取消分享后执行的回调函数
+        }
+      })
+    }
+  }
+}
+</script>
+<style lang="less" scoped>
+.details {
+  overflow: hidden;
+  .description {
+    padding: 10px;
+    .label {
+      display: inline-block;
+      padding:0 10px;
+      height: 22px;
+      line-height: 22px;
+      color: #fff;
+      font-size: 12px;
+      text-align: center;
+    }
+    .title {
+      line-height: 30px;
+      font-size: 18px;
+    }
+    .info {
+      line-height: 26px;
+      color: #949494;
+      span {
+        margin-right: 15px;
+      }
+      .iconfont {
+        font-size: 12px;
+      }
+    }
+    .summary {
+      margin-top: 20px;
+      color: #4b4b4b;
+      font-size: 16px;
+    }
+    .article {
+      margin-top: 10px;
+    }
+  }
+}
+</style>
+```
+
+2、https://cn.vuejs.org/v2/guide/transitions.html
+
+3、http://www.jzdlink.com/studynotes/201711021406.html
 
 
 

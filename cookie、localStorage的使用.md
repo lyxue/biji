@@ -193,7 +193,7 @@
 ```
 实例：
 let storage=window.localStorage;
-storage.setItem("随便取名"，要存储的值)
+storage.setItem("随便取名",要存储的值)
 ```
 
 2、获取
