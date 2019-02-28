@@ -22,6 +22,22 @@ cd 项目名称
 npm run dev
 ```
 
+5、安装脚手架会遇到的问题
+
+​	【1】、npm版本太低，需要更新它
+
+```
+npm install npm -g
+```
+
+​	【2】、使用淘宝镜像会比较快
+
+```
+淘宝镜像命令：cnpm install npm -g 
+```
+
+
+
 ### 二、文件的解释
 
 1、目录结构
@@ -129,7 +145,7 @@ npm run dev
 （1）、安装less文件的命令【--save-dev（表示不上线）】
 
 ```
-less  npm install less  less-loader --save-dev
+npm install less  less-loader --save-dev
 ```
 
 （2）、直接执行命令即可
@@ -370,10 +386,13 @@ import "../node_modules/animate.css/animate.css";
 	enter-active-class="animated slideInLeft"
 	leave-active-class="animated slideOutLeft"
 >
+	<div class="nlz" @click="nlzhi" v-show="nlzhi1">{{nun}}</div>
 </transition>
 ```
 
-4、做了这几步，你的动画就应该会跑了
+4、用事件来改变显示隐藏的值，从而控制动画的出现
+
+5、做了这几步，你的动画就应该会跑了
 
 ### 八、计算属性【仅仅对单元素属性使用】
 
@@ -550,9 +569,80 @@ this.$axios.post("my/Users/reg",params)
 })
 ```
 
+### 补充：路由拦截
+
+#### 一、代码模块
+
+###### 1、axios发起请求都会经过这里【请求拦截器】
+
+```
+axios.interceptors.request.use(function (config) {
+	console.log("config");
+	//此时你会看到，请求发送的数据都打印出来了，可以做一下请求前的处理
+    return config;
+  }, function (error) {
+    return Promise.reject(error);
+  });
+```
+
+###### 2、axios请求回来的数都会经过这里【响应拦截器】
+
+```
+axios.interceptors.response.use(function (response) {
+	console.log(response);
+	//此时打印response，和axios请求时，打印的res一样，所以，可以说response=res，是请求回来的数据信息，可以再此做一些简单的处理，以减少请求后对数据的处理
+    return response;
+  }, function (error) {
+    return Promise.reject(error);
+  });
+```
+
+#### 二、引用
+
+1、在main.js中直接插入代码
+
+```
+例如：
+import Vue from 'vue'
+import App from './App'
+import router from './router'
+
+//全局引入axios
+import Axios from 'axios';
+Vue.prototype.$axios=Axios;
+
+// ======== 路由拦截==========================
+// 1、发起axios的时候都会经过下面这个函数				【请求拦截】
+axios.interceptors.request.use(function (config) {
+	return config;
+  }, function (error) {
+    return Promise.reject(error);
+  });
+
+//2、请求回来的参数都会经过下面这个函数				   【响应拦截】
+axios.interceptors.response.use(function (response) {
+    return response;
+  }, function (error) {
+    return Promise.reject(error);
+  });
+
+// ===================================================
+Vue.config.productionTip = false
+import  store from './store'
+
+new Vue({
+  el: '#app',
+  router,
+	store,
+  components: { App },
+  template: '<App/>'
+})
+
+```
 
 
-### 十一、vue的相关连接http://www.cnblogs.com/amunamuna/p/8709491.html
+
+### 十一、vue的基本使用相关连接http://www.cnblogs.com/amunamuna/p/8709491.html
 
 ### 十二、组件之间参数的传递
 
@@ -578,6 +668,8 @@ props:['list'],
 ```
 
 ###### （二）：实例2
+
+###### 第一种：父传子
 
 1、父子组件
 
@@ -626,6 +718,12 @@ props:['list'],
 
 【prop是单向绑定的，不应该在子组件内部改变prop。不过这里的props传过来的值会随之父组件的值的改变而改变，是动态改变的。】
 
+###### 第二个：子传父
+
+1、![](C:\Users\吕运学\Desktop\git笔记\vue脚手架\图片目录\子传父（1）.png)
+
+2、![](C:\Users\吕运学\Desktop\git笔记\vue脚手架\图片目录\子传父（2）.png)
+
 ##### 二、路由传参
 
 ###### （一）、在路由的path路径下传参
@@ -633,11 +731,7 @@ props:['list'],
 1、路由配置
 
 ```
-   {
-     path: '/describe/:id',
-     name: 'describe',
-     component: Describe
-   }
+   {path: '/describe/:id',name: 'describe',component: Describe}
 ```
 
 2、使用方式
@@ -711,6 +805,100 @@ this.$router.push({
 ```
 this.$route.query.id
 ```
+
+### （三）、vuex的基本使用
+
+1、vuex属于第三方插件，需要下载
+
+```
+npm install  vuex --save
+```
+
+2、在src下建立新的文件夹，一般取名store，再建立js文件index.js。
+
+```
+import Vue from 'vue';
+import Vuex from 'vuex';  //vuex属于第三方插件，需要下载
+Vue.use(Vuex);
+const store = new Vuex.Store({
+  state: {
+    name:'vuex的基本使用'
+  },
+  mutations: {
+    setName(state,name){
+    	state.name=name
+    }
+  } 
+})
+//state 存放所有全局状态值（全局变量） 这里的数据只能通过mutation里的方法修改
+//mutations 里面有一堆方法  方法的作用是修改  state 里的值
+export default store
+```
+
+3、在需要使用的组件里直接使用
+
+```
+例子：
+<template>
+    <div>{{this.$store.state.name}}</div>
+</template>
+```
+
+4、如果要更改数据，可以借助点击事件，点击后触发相应的数据改变，
+
+```
+<template>
+    <div @click="navShow">{{this.$store.state.name}}</div>
+</template>
+<script>
+	export default{
+			data() {
+				return {
+					vall:"这是什么鬼"
+				}
+			},
+			methods:{
+				navShow(){
+					let val=this.vall
+					this.$store.commit('setName',val)
+				}
+			}
+			}
+	}
+</script>
+
+========================================使用=========================================
+    this.$store.state.name(变量名使用) 推荐用计算属性
+    修改
+    this.$store.commit("mutation里的方法",'点击后传递的参数')
+```
+
+#### （四）、[keep-alive](https://cn.vuejs.org/v2/api/#keep-alive)
+
+1、作用：【主要用于保留组件状态或避免重新渲染】
+
+2、基本使用
+
+```
+//一般将组件App.vue的<router-view/>包起来
+<template>
+  	<div id="app">
+        <keep-alive exclude="home">
+          <router-view/>
+        </keep-alive>
+  	</div>
+</template>
+```
+
+3、<keep-alive exclude="home">此处的exclude="home"代表除路由名字为home的组件都会被缓存
+
+4、<keep-alive>里边的参数有：
+
+- `include` - 字符串或正则表达式。只有名称匹配的组件会被缓存。
+- `exclude` - 字符串或正则表达式。任何名称匹配的组件都不会被缓存。
+- `max` - 数字。最多可以缓存多少组件实例。
+
+5、当组件在 `<keep-alive>` 内被切换，它的 `activated` 和 `deactivated` 这两个生命周期钩子函数将会被对应执行。 
 
 ### 十三、路由
 
@@ -1341,6 +1529,8 @@ this.$axios.post(this.API().login,params)
 
 ​	https://blog.csdn.net/shooke/article/details/79069614
 
+​	https://blog.csdn.net/weixin_39939012/article/details/83574090
+
 ```
 <template>
   <div class="details">
@@ -1380,7 +1570,8 @@ export default {
     document.querySelector('.htmlTitle').text = 'title'
   },
   mounted () {
-    // 获取详情数据let url = window.location.href.split("#")[0]
+    // 获取详情数据
+    let url = window.location.href.split("#")[0]
     this.$http.get(this, videoDtails, {videoId: this.$route.query.id}, res => {
       this.details = res
       document.querySelector('.htmlTitle').text = this.details.videoTitle
@@ -1480,13 +1671,158 @@ export default {
 
 3、http://www.jzdlink.com/studynotes/201711021406.html
 
+4、http://www.hehaibao.com/vue-wechat-share/【微信分享实例】
+
+5、https://www.jianshu.com/p/36c3144bdb54【隐藏掉一些默认的分享】
+
+6、https://blog.csdn.net/chanlingmai5374/article/details/82343470【签到】
+
+7、微信分享实例【认真阅读】
+
+```
+1、通过npm 安装 微信的js-sdk，当然你也可以在index.html页面中直接加script标签来引用，哪种方式都可以。命令如下：
+npm install weixin-js-sdk --save-dev
+
+
+2、在Vue目录下，比如：common文件夹，新建一个js文件，起名你随意，我这边叫wxapi.js，贴入下面代码(PS: Axios根据实际情况来使用)：
+/**
+ * 微信js-sdk
+ * 参考文档：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115
+ */
+import wx from 'weixin-js-sdk'
+import Axios from 'axios'
+const wxApi = {
+  /**
+  * [wxRegister 微信Api初始化]
+  * @param  {Function} callback [ready回调函数]
+  */
+  wxRegister (callback) {
+    // 这边的接口请换成你们自己的
+    Axios.post('/api/wechat/shares', { reqUrl: window.location.href }, { timeout: 5000, withCredentials: true }).then((res) => {
+      let data = JSON.parse(res.data.data) // PS: 这里根据你接口的返回值来使用
+      wx.config({
+        debug: false, // 开启调试模式
+        appId: data.appId, // 必填，公众号的唯一标识
+        timestamp: data.timestamp, // 必填，生成签名的时间戳
+        nonceStr: data.noncestr, // 必填，生成签名的随机串
+        signature: data.signature, // 必填，签名，见附录1
+        jsApiList: data.jsApiList // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+      })
+    }).catch((error) => {
+      console.log(error)
+    })
+    wx.ready((res) => {
+      // 如果需要定制ready回调方法
+      if (callback) {
+        callback()
+      }
+    })
+  },
+  /**
+  * [ShareTimeline 微信分享到朋友圈]
+  * @param {[type]} option [分享信息]
+  * @param {[type]} success [成功回调]
+  * @param {[type]} error   [失败回调]
+  */
+  ShareTimeline (option) {
+    wx.onMenuShareTimeline({
+      title: option.title, // 分享标题
+      link: option.link, // 分享链接
+      imgUrl: option.imgUrl, // 分享图标
+      success () {
+        // 用户成功分享后执行的回调函数
+        option.success()
+      },
+      cancel () {
+        // 用户取消分享后执行的回调函数
+        option.error()
+      }
+    })
+  },
+  /**
+  * [ShareAppMessage 微信分享给朋友]
+  * @param {[type]} option [分享信息]
+  * @param {[type]} success [成功回调]
+  * @param {[type]} error   [失败回调]
+  */
+  ShareAppMessage (option) {
+    wx.onMenuShareAppMessage({
+      title: option.title, // 分享标题
+      desc: option.desc, // 分享描述
+      link: option.link, // 分享链接
+      imgUrl: option.imgUrl, // 分享图标
+      success () {
+        // 用户成功分享后执行的回调函数
+        option.success()
+      },
+      cancel () {
+        // 用户取消分享后执行的回调函数
+        option.error()
+      }
+    })
+  }
+}
+export default wxApi
+
+3、如何使用呢？
+在Vue页面，比如首页，先引入刚刚的js文件：
+import wxapi from '@/common/wxapi.js'
+
+在mounted()中加入调用的代码：
+wxapi.wxRegister(this.wxRegCallback)
+然后再methods中加入下面3个方法：
+wxRegCallback () {
+  // 用于微信JS-SDK回调
+  this.wxShareTimeline()
+  this.wxShareAppMessage()
+},
+wxShareTimeline () {
+  // 微信自定义分享到朋友圈
+  let option = {
+    title: '限时团购周 挑战最低价', // 分享标题, 请自行替换
+    link: window.location.href.split('#')[0], // 分享链接，根据自身项目决定是否需要split
+    imgUrl: 'logo.png', // 分享图标, 请自行替换，需要绝对路径
+    success: () => {
+      alert('分享成功')
+    },
+    error: () => {
+      alert('已取消分享')
+    }
+  }
+  // 将配置注入通用方法
+  wxapi.ShareTimeline(option)
+},
+wxShareAppMessage () {
+  // 微信自定义分享给朋友
+  let option = {
+    title: '限时团购周 挑战最低价', // 分享标题, 请自行替换
+    desc: '限时团购周 挑战最低价', // 分享描述, 请自行替换
+    link: window.location.href.split('#')[0], // 分享链接，根据自身项目决定是否需要split
+    imgUrl: 'logo.png', // 分享图标, 请自行替换，需要绝对路径
+    success: () => {
+      alert('分享成功')
+    },
+    error: () => {
+      alert('已取消分享')
+    }
+  }
+  // 将配置注入通用方法
+  wxapi.ShareAppMessage(option)
+}
+
+
+会遇到的问题：
+以上几步即实现了微信的分享功能，如果期间遇到问题，请自己开启debug调试模式，并根据错误提示的内容去解决。一般如果后端接口没问题的话，前端一般只会遇到：签名验证失败或者URL的问题。😆
+config:fail,Error: AppID 不合法
+由于后端返回的是json, 我前台没有将json转为对象，所以导致一直报appID不合法。这个细心点就不会遇到了。
+写在最后
+```
 
 
 
+### 二十三、混合开发文档
 
-
-
-
+1、http://www.html5plus.org/doc/zh_cn/accelerometer.html
 
 
 
